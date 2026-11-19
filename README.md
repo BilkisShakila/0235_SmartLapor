@@ -45,10 +45,6 @@ Pada Week 2, pengerjaan proyek **Smart Lapor** berfokus pada penyelesaian dokume
 5. **Perancangan Konsep Aplikasi:** Penentuan tema Lingkungan & Sosial, pemetaan 4 entitas data utama (*User, Category, Report, Response*), dan perancangan 5 modul CRUDS wajib.
 
 ### 📜 Daftar Riwayat Commit (Week 2)
-
 | No | Hash Commit | Pesan Commit |
 | :--- | :--- | :--- |
-| 1 | *(isi hash setelah commit)* | `docs: selesaikan SRS Bab 1.2 sampai 1.6` |
-| 2 | *(isi hash setelah commit)* | `docs: update laporan riwayat perubahan di README` |
-
----
+| 1 | `d76d821` | `Initial commit` |
