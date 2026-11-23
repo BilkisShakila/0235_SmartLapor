@@ -1,0 +1,14 @@
+@startuml
+title Flowchart - Lihat Tanggapan Petugas (Masyarakat)
+
+start
+:Masyarakat membuka halaman Riwayat Laporan;
+:Memilih salah satu laporan milik sendiri;
+:Sistem mengambil detail laporan &\ntanggapan petugas dari Server;
+if (Sudah ada tanggapan?) then (Ya)
+  :Tampilkan isi tanggapan &\nketerangan tindak lanjut petugas;
+else (Belum)
+  :Tampilkan keterangan\n"Belum ada tanggapan petugas";
+endif
+stop
+@enduml
