@@ -1,0 +1,64 @@
+@startuml
+title Activity Diagram Kelola Tanggapan Petugas (Admin)
+
+|#F5F5F5|1. Admin (Petugas)|
+start
+:Membuka menu Kelola Tanggapan;
+
+|#DCEBFF|2. Aplikasi Android (Smart Lapor)|
+:Mengirim request GET /api/responses;
+
+|#EDE2F3|3. Backend REST API & Database|
+:Mengambil daftar tanggapan & kirim HTTP 200;
+
+|#DCEBFF|2. Aplikasi Android (Smart Lapor)|
+:Menampilkan daftar tanggapan;
+
+|#F5F5F5|1. Admin (Petugas)|
+switch (Pilih aksi?)
+case (Tambah / Ubah)
+  :Mengisi atau mengubah isi tanggapan\n& menekan Simpan;
+  |#DCEBFF|2. Aplikasi Android (Smart Lapor)|
+  if (Tanggapan tidak kosong?) then (Tidak)
+    #FFB6C1:Menampilkan pesan "Tanggapan wajib diisi";
+  else (Ya)
+    :Mengirim request POST / PUT /api/responses\n(dengan Access Token JWT);
+    |#EDE2F3|3. Backend REST API & Database|
+    :Verifikasi JWT & peran Admin;
+    :Simpan / perbarui tanggapan di Database;
+    :Mengembalikan response HTTP 200 / 201;
+    |#DCEBFF|2. Aplikasi Android (Smart Lapor)|
+    #90EE90:Notifikasi berhasil & segarkan daftar;
+  endif
+case (Hapus)
+  |#F5F5F5|1. Admin (Petugas)|
+  :Memilih tanggapan & menekan Hapus;
+  |#DCEBFF|2. Aplikasi Android (Smart Lapor)|
+  :Menampilkan dialog konfirmasi hapus;
+  |#F5F5F5|1. Admin (Petugas)|
+  if (Konfirmasi?) then (Ya)
+    |#DCEBFF|2. Aplikasi Android (Smart Lapor)|
+    :Mengirim request DELETE /api/responses/{id};
+    |#EDE2F3|3. Backend REST API & Database|
+    :Verifikasi JWT & hapus data di Database;
+    :Mengembalikan response HTTP 200 OK;
+    |#DCEBFF|2. Aplikasi Android (Smart Lapor)|
+    #90EE90:Notifikasi berhasil hapus & segarkan daftar;
+  else (Batal)
+    |#DCEBFF|2. Aplikasi Android (Smart Lapor)|
+    :Menutup dialog konfirmasi;
+  endif
+case (Cari)
+  |#F5F5F5|1. Admin (Petugas)|
+  :Mengetik kata kunci di Search Bar;
+  |#DCEBFF|2. Aplikasi Android (Smart Lapor)|
+  :Mengirim request GET /api/responses?search={kata};
+  |#EDE2F3|3. Backend REST API & Database|
+  :Mencari tanggapan & kirim HTTP 200;
+  |#DCEBFF|2. Aplikasi Android (Smart Lapor)|
+  :Menampilkan hasil pencarian tanggapan;
+endswitch
+
+|#F5F5F5|1. Admin (Petugas)|
+stop
+@enduml

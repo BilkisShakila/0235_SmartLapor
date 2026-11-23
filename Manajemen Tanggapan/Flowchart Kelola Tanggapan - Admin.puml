@@ -1,0 +1,37 @@
+@startuml
+title Flowchart 6 - Kelola Tanggapan Petugas (Admin)
+
+start
+:Admin membuka menu Kelola Tanggapan;
+:Sistem menampilkan daftar tanggapan;
+switch (Pilih aksi?)
+case (Tambah)
+  :Pilih laporan & isi teks tanggapan;
+  if (Tanggapan valid?) then (Ya)
+    :Simpan tanggapan ke Database;
+    :Perbarui daftar tanggapan;
+  else (Tidak)
+    :Tampilkan pesan error validasi;
+  endif
+case (Ubah)
+  :Pilih tanggapan & ubah isi teks;
+  if (Tanggapan valid?) then (Ya)
+    :Perbarui tanggapan di Database;
+    :Perbarui daftar tanggapan;
+  else (Tidak)
+    :Tampilkan pesan error validasi;
+  endif
+case (Hapus)
+  :Pilih tanggapan & tekan Hapus;
+  if (Konfirmasi hapus?) then (Ya)
+    :Hapus tanggapan di Database;
+    :Perbarui daftar tanggapan;
+  else (Batal)
+    :Batalkan penghapusan;
+  endif
+case (Cari)
+  :Masukkan kata kunci tanggapan / laporan;
+  :Tampilkan hasil pencarian tanggapan;
+endswitch
+stop
+@enduml

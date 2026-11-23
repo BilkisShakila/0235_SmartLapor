@@ -1,0 +1,26 @@
+@startuml
+title Activity Diagram Lihat Tanggapan Petugas (Masyarakat)
+
+|#F5F5F5|1. User (Masyarakat)|
+start
+:Membuka halaman Riwayat Laporan;
+:Memilih salah satu laporan milik sendiri;
+
+|#DCEBFF|2. Aplikasi Android (Smart Lapor)|
+:Mengirim request GET /api/reports/{id}/responses\n(dengan Access Token JWT);
+
+|#EDE2F3|3. Backend REST API & Database|
+:Verifikasi JWT & kepemilikan laporan;
+:Mengambil data tanggapan dari Database;
+:Mengembalikan response HTTP 200 OK;
+
+|#DCEBFF|2. Aplikasi Android (Smart Lapor)|
+if (Tanggapan tersedia?) then (Ya)
+  #90EE90:Menampilkan isi tanggapan &\nketerangan tindak lanjut petugas;
+else (Belum)
+  :Menampilkan keterangan\n"Belum ada tanggapan petugas";
+endif
+
+|#F5F5F5|1. User (Masyarakat)|
+stop
+@enduml
