@@ -1,0 +1,53 @@
+@startuml
+title ERD Smart Lapor
+
+entity "User" as user {
+  * id <<PK>>
+  --
+  nama
+  email
+  password
+  no_telp
+  role
+}
+
+entity "Category" as category {
+  * id <<PK>>
+  --
+  nama_kategori
+  deskripsi
+}
+
+entity "Report" as report {
+  * id <<PK>>
+  --
+  judul
+  deskripsi
+  lokasi
+  foto_bukti
+  status
+  created_at
+}
+
+entity "Response" as response {
+  * id <<PK>>
+  --
+  isi_tanggapan
+  created_at
+}
+
+entity "Announcement" as announcement {
+  * id <<PK>>
+  --
+  judul
+  isi_pengumuman
+  tanggal_terbit
+}
+
+user "1" -- "0..*" report : membuat >
+category "1" -- "0..*" report : mengelompokkan >
+report "1" -- "0..*" response : memiliki >
+user "1" -- "0..*" response : memberikan >
+user "1" -- "0..*" announcement : menerbitkan >
+
+@enduml

@@ -1,0 +1,59 @@
+@startuml
+title RAT Smart Lapor
+
+entity "User" as user {
+  * id : INT <<PK>>
+  --
+  * nama : VARCHAR
+  * email : VARCHAR
+  * password : VARCHAR
+  no_telp : VARCHAR
+  * role : VARCHAR
+  * created_at : TIMESTAMP
+}
+
+entity "Category" as category {
+  * id : INT <<PK>>
+  --
+  * nama_kategori : VARCHAR
+  deskripsi : TEXT
+}
+
+entity "Report" as report {
+  * id : INT <<PK>>
+  --
+  * user_id : INT <<FK>>
+  * category_id : INT <<FK>>
+  * judul : VARCHAR
+  * deskripsi : TEXT
+  * lokasi : VARCHAR
+  * foto_bukti : VARCHAR
+  * status : VARCHAR
+  * created_at : TIMESTAMP
+}
+
+entity "Response" as response {
+  * id : INT <<PK>>
+  --
+  * report_id : INT <<FK>>
+  * admin_id : INT <<FK>>
+  * isi_tanggapan : TEXT
+  * created_at : TIMESTAMP
+}
+
+entity "Announcement" as announcement {
+  * id : INT <<PK>>
+  --
+  * admin_id : INT <<FK>>
+  * judul : VARCHAR
+  * isi_pengumuman : TEXT
+  * tanggal_terbit : DATE
+}
+
+user ||--o{ report : "membuat"
+category ||--o{ report : "mengelompokkan"
+report ||--o{ response : "memiliki"
+user ||--o{ response : "memberikan (Admin)"
+user ||--o{ announcement : "menerbitkan (Admin)"
+
+@enduml
