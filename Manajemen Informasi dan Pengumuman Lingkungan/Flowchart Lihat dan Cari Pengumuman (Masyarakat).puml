@@ -1,0 +1,16 @@
+@startuml
+title Flowchart - Lihat dan Cari Pengumuman (Masyarakat)
+
+start
+:Masyarakat membuka halaman Pengumuman;
+:Sistem menampilkan daftar pengumuman lingkungan;
+switch (Pilih aksi?)
+case (Cari)
+  :Masukkan kata kunci judul atau isi;
+  :Tampilkan daftar pengumuman yang sesuai;
+case (Lihat Detail)
+  :Pilih salah satu pengumuman;
+  :Tampilkan detail isi & tanggal terbit pengumuman;
+endswitch
+stop
+@enduml

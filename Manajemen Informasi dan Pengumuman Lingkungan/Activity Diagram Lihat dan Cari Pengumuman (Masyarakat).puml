@@ -1,0 +1,41 @@
+@startuml
+title Activity Diagram Lihat dan Cari Pengumuman (Masyarakat)
+
+|#F5F5F5|1. User (Masyarakat)|
+start
+:Membuka halaman Pengumuman;
+
+|#DCEBFF|2. Aplikasi Android (Smart Lapor)|
+:Mengirim request GET /api/announcements\n(dengan Access Token JWT);
+
+|#EDE2F3|3. Backend REST API & Database|
+:Mengambil daftar pengumuman dari Database;
+:Mengembalikan response HTTP 200 OK;
+
+|#DCEBFF|2. Aplikasi Android (Smart Lapor)|
+:Menampilkan daftar pengumuman;
+
+|#F5F5F5|1. User (Masyarakat)|
+switch (Pilih aksi?)
+case (Cari)
+  :Mengetik kata kunci di Search Bar;
+  |#DCEBFF|2. Aplikasi Android (Smart Lapor)|
+  :Mengirim request GET /api/announcements?search={kata};
+  |#EDE2F3|3. Backend REST API & Database|
+  :Mencari pengumuman & kirim HTTP 200;
+  |#DCEBFF|2. Aplikasi Android (Smart Lapor)|
+  :Menampilkan hasil pencarian pengumuman;
+case (Lihat Detail)
+  |#F5F5F5|1. User (Masyarakat)|
+  :Memilih salah satu pengumuman;
+  |#DCEBFF|2. Aplikasi Android (Smart Lapor)|
+  :Mengirim request GET /api/announcements/{id};
+  |#EDE2F3|3. Backend REST API & Database|
+  :Mengambil detail pengumuman & kirim HTTP 200;
+  |#DCEBFF|2. Aplikasi Android (Smart Lapor)|
+  #90EE90:Menampilkan halaman detail pengumuman;
+endswitch
+
+|#F5F5F5|1. User (Masyarakat)|
+stop
+@enduml

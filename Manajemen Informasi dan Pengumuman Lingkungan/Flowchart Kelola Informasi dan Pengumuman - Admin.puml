@@ -1,0 +1,37 @@
+@startuml
+title Flowchart 9 - Kelola Informasi dan Pengumuman (Admin)
+
+start
+:Admin membuka menu Kelola Pengumuman;
+:Sistem menampilkan daftar pengumuman;
+switch (Pilih aksi?)
+case (Tambah)
+  :Isi judul, isi pengumuman, & tanggal terbit;
+  if (Judul & isi lengkap?) then (Ya)
+    :Simpan pengumuman ke Database;
+    :Perbarui daftar pengumuman;
+  else (Tidak)
+    :Tampilkan pesan error validasi;
+  endif
+case (Ubah)
+  :Pilih pengumuman & ubah judul/isi;
+  if (Judul & isi lengkap?) then (Ya)
+    :Perbarui pengumuman di Database;
+    :Perbarui daftar pengumuman;
+  else (Tidak)
+    :Tampilkan pesan error validasi;
+  endif
+case (Hapus)
+  :Pilih pengumuman & tekan Hapus;
+  if (Konfirmasi hapus?) then (Ya)
+    :Hapus pengumuman di Database;
+    :Perbarui daftar pengumuman;
+  else (Batal)
+    :Batalkan penghapusan;
+  endif
+case (Cari)
+  :Masukkan kata kunci judul atau isi;
+  :Tampilkan hasil pencarian pengumuman;
+endswitch
+stop
+@enduml
