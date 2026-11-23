@@ -1,0 +1,21 @@
+@startuml
+title Flowchart - Lihat dan Ubah Profil Pribadi (Masyarakat)
+
+start
+:Masyarakat membuka halaman Profil;
+:Sistem menampilkan informasi profil pribadi\n(nama, email, nomor telepon);
+if (Ingin mengubah profil?) then (Ya)
+  :Ubah nama atau nomor telepon\n& tekan tombol Simpan;
+  :Validasi kelengkapan & format input;
+  if (Input valid?) then (Ya)
+    :Kirim pembaruan profil & JWT ke Server;
+    :Perbarui data profil di Database;
+    :Tampilkan notifikasi berhasil &\nsegarkan halaman Profil;
+  else (Tidak)
+    :Tampilkan pesan error validasi;
+  endif
+else (Tidak)
+  :Selesai melihat profil;
+endif
+stop
+@enduml

@@ -1,0 +1,37 @@
+@startuml
+title Flowchart 8 - Kelola Pengguna (Admin)
+
+start
+:Admin membuka menu Kelola Pengguna;
+:Sistem menampilkan daftar pengguna;
+switch (Pilih aksi?)
+case (Tambah)
+  :Isi nama, email, kata sandi, & peran;
+  if (Data lengkap & format email valid?) then (Ya)
+    :Simpan akun baru ke Database;
+    :Perbarui daftar pengguna;
+  else (Tidak)
+    :Tampilkan pesan error validasi;
+  endif
+case (Ubah)
+  :Pilih pengguna & ubah nama, email, atau peran;
+  if (Data lengkap & format email valid?) then (Ya)
+    :Perbarui data pengguna di Database;
+    :Perbarui daftar pengguna;
+  else (Tidak)
+    :Tampilkan pesan error validasi;
+  endif
+case (Hapus)
+  :Pilih pengguna & tekan Hapus;
+  if (Konfirmasi hapus?) then (Ya)
+    :Hapus akun pengguna di Database;
+    :Perbarui daftar pengguna;
+  else (Batal)
+    :Batalkan penghapusan;
+  endif
+case (Cari)
+  :Masukkan kata kunci nama atau email;
+  :Tampilkan hasil pencarian pengguna;
+endswitch
+stop
+@enduml

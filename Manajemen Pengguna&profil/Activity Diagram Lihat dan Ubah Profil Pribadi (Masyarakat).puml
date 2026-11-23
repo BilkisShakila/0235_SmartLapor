@@ -1,0 +1,41 @@
+@startuml
+title Activity Diagram Lihat dan Ubah Profil Pribadi (Masyarakat)
+
+|#F5F5F5|1. User (Masyarakat)|
+start
+:Membuka halaman Profil;
+
+|#DCEBFF|2. Aplikasi Android (Smart Lapor)|
+:Mengirim request GET /api/users/profile\n(dengan Access Token JWT);
+
+|#EDE2F3|3. Backend REST API & Database|
+:Verifikasi JWT & ambil data profil dari Database;
+:Mengembalikan response HTTP 200 OK;
+
+|#DCEBFF|2. Aplikasi Android (Smart Lapor)|
+:Menampilkan informasi profil pribadi;
+
+|#F5F5F5|1. User (Masyarakat)|
+if (Ingin ubah profil?) then (Ya)
+  :Mengubah nama atau nomor telepon\n& menekan tombol Simpan;
+  |#DCEBFF|2. Aplikasi Android (Smart Lapor)|
+  :Validasi kelengkapan & format input;
+  if (Input valid?) then (Tidak)
+    #FFB6C1:Menampilkan pesan error validasi;
+  else (Ya)
+    |#DCEBFF|2. Aplikasi Android (Smart Lapor)|
+    :Mengirim request PUT /api/users/profile\n(dengan Access Token JWT);
+    |#EDE2F3|3. Backend REST API & Database|
+    :Verifikasi JWT & perbarui profil di Database;
+    :Mengembalikan response HTTP 200 OK;
+    |#DCEBFF|2. Aplikasi Android (Smart Lapor)|
+    #90EE90:Notifikasi profil diperbarui &\nsegarkan tampilan profil;
+  endif
+else (Tidak)
+  |#F5F5F5|1. User (Masyarakat)|
+  :Selesai melihat profil;
+endif
+
+|#F5F5F5|1. User (Masyarakat)|
+stop
+@enduml

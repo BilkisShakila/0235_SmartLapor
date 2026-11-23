@@ -1,0 +1,71 @@
+@startuml
+title Activity Diagram Kelola Pengguna (Admin)
+
+|#F5F5F5|1. Admin (Petugas)|
+start
+:Membuka menu Kelola Pengguna;
+
+|#DCEBFF|2. Aplikasi Android (Smart Lapor)|
+:Mengirim request GET /api/users;
+
+|#EDE2F3|3. Backend REST API & Database|
+:Mengambil daftar pengguna & kirim HTTP 200;
+
+|#DCEBFF|2. Aplikasi Android (Smart Lapor)|
+:Menampilkan daftar pengguna;
+
+|#F5F5F5|1. Admin (Petugas)|
+switch (Pilih aksi?)
+case (Tambah / Ubah)
+  :Mengisi atau mengubah data pengguna\n(nama, email, sandi, peran) & tekan Simpan;
+  |#DCEBFF|2. Aplikasi Android (Smart Lapor)|
+  if (Input lengkap & format email valid?) then (Tidak)
+    #FFB6C1:Menampilkan pesan error validasi;
+  else (Ya)
+    :Mengirim request POST / PUT /api/users\n(dengan Access Token JWT);
+    |#EDE2F3|3. Backend REST API & Database|
+    :Verifikasi JWT, peran Admin, &\ncek ketersediaan email;
+    if (Email sudah terdaftar?) then (Ya)
+      :Mengembalikan response gagal (400/409);
+      |#DCEBFF|2. Aplikasi Android (Smart Lapor)|
+      #FFB6C1:Menampilkan pesan "Email sudah terdaftar";
+    else (Belum)
+      |#EDE2F3|3. Backend REST API & Database|
+      :Simpan / perbarui data user di Database;
+      :Mengembalikan response HTTP 200 / 201;
+      |#DCEBFF|2. Aplikasi Android (Smart Lapor)|
+      #90EE90:Notifikasi berhasil & segarkan daftar;
+    endif
+  endif
+case (Hapus)
+  |#F5F5F5|1. Admin (Petugas)|
+  :Memilih pengguna & menekan Hapus;
+  |#DCEBFF|2. Aplikasi Android (Smart Lapor)|
+  :Menampilkan dialog konfirmasi hapus;
+  |#F5F5F5|1. Admin (Petugas)|
+  if (Konfirmasi?) then (Ya)
+    |#DCEBFF|2. Aplikasi Android (Smart Lapor)|
+    :Mengirim request DELETE /api/users/{id};
+    |#EDE2F3|3. Backend REST API & Database|
+    :Verifikasi JWT & hapus akun di Database;
+    :Mengembalikan response HTTP 200 OK;
+    |#DCEBFF|2. Aplikasi Android (Smart Lapor)|
+    #90EE90:Notifikasi berhasil hapus & segarkan daftar;
+  else (Batal)
+    |#DCEBFF|2. Aplikasi Android (Smart Lapor)|
+    :Menutup dialog konfirmasi;
+  endif
+case (Cari)
+  |#F5F5F5|1. Admin (Petugas)|
+  :Mengetik nama atau email di Search Bar;
+  |#DCEBFF|2. Aplikasi Android (Smart Lapor)|
+  :Mengirim request GET /api/users?search={kata};
+  |#EDE2F3|3. Backend REST API & Database|
+  :Mencari pengguna & kirim HTTP 200;
+  |#DCEBFF|2. Aplikasi Android (Smart Lapor)|
+  :Menampilkan hasil pencarian pengguna;
+endswitch
+
+|#F5F5F5|1. Admin (Petugas)|
+stop
+@enduml
