@@ -1,0 +1,22 @@
+@startuml
+title Flowchart 1 - Registrasi Akun Baru (Smart Lapor)
+
+start
+:Masyarakat membuka halaman Registrasi;
+repeat
+  :Mengisi nama, email, dan kata sandi;
+  :Menekan tombol Daftar;
+  :Validasi kelengkapan & format input;
+backward:Tampilkan pesan error validasi;
+repeat while (Input valid?) is (Tidak) not (Ya)
+
+:Kirim data registrasi ke Server;
+if (Email sudah terdaftar?) then (Ya)
+  :Tampilkan pesan "Email sudah terdaftar";
+  stop
+else (Belum)
+  :Simpan data akun ke Database;
+  :Arahkan ke halaman Login;
+  stop
+endif
+@enduml
