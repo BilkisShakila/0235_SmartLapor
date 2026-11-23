@@ -1,0 +1,71 @@
+@startuml
+title Activity Diagram Kelola Kategori Masalah (Admin)
+
+|#F5F5F5|1. Admin (Petugas)|
+start
+:Membuka menu Kelola Kategori;
+
+|#DCEBFF|2. Aplikasi Android (Smart Lapor)|
+:Mengirim request GET /api/categories;
+
+|#EDE2F3|3. Backend REST API & Database|
+:Mengambil daftar kategori & kirim HTTP 200;
+
+|#DCEBFF|2. Aplikasi Android (Smart Lapor)|
+:Menampilkan daftar kategori;
+
+|#F5F5F5|1. Admin (Petugas)|
+switch (Pilih aksi?)
+case (Tambah / Ubah)
+  :Mengisi atau mengubah nama kategori &\ndeskripsi, lalu menekan Simpan;
+  |#DCEBFF|2. Aplikasi Android (Smart Lapor)|
+  if (Nama kategori terisi?) then (Tidak)
+    #FFB6C1:Menampilkan pesan "Nama kategori wajib diisi";
+  else (Ya)
+    :Mengirim request POST / PUT /api/categories\n(dengan Access Token JWT);
+    |#EDE2F3|3. Backend REST API & Database|
+    :Verifikasi JWT, peran Admin, &\ncek duplikasi nama kategori;
+    if (Nama sudah ada?) then (Ya)
+      :Mengembalikan response gagal (400/409);
+      |#DCEBFF|2. Aplikasi Android (Smart Lapor)|
+      #FFB6C1:Menampilkan pesan "Kategori sudah ada";
+    else (Belum)
+      |#EDE2F3|3. Backend REST API & Database|
+      :Simpan / perbarui kategori di Database;
+      :Mengembalikan response HTTP 200 / 201;
+      |#DCEBFF|2. Aplikasi Android (Smart Lapor)|
+      #90EE90:Notifikasi berhasil & segarkan daftar;
+    endif
+  endif
+case (Hapus)
+  |#F5F5F5|1. Admin (Petugas)|
+  :Memilih kategori & menekan Hapus;
+  |#DCEBFF|2. Aplikasi Android (Smart Lapor)|
+  :Menampilkan dialog konfirmasi hapus;
+  |#F5F5F5|1. Admin (Petugas)|
+  if (Konfirmasi?) then (Ya)
+    |#DCEBFF|2. Aplikasi Android (Smart Lapor)|
+    :Mengirim request DELETE /api/categories/{id};
+    |#EDE2F3|3. Backend REST API & Database|
+    :Verifikasi JWT & hapus kategori di Database;
+    :Mengembalikan response HTTP 200 OK;
+    |#DCEBFF|2. Aplikasi Android (Smart Lapor)|
+    #90EE90:Notifikasi berhasil hapus & segarkan daftar;
+  else (Batal)
+    |#DCEBFF|2. Aplikasi Android (Smart Lapor)|
+    :Menutup dialog konfirmasi;
+  endif
+case (Cari)
+  |#F5F5F5|1. Admin (Petugas)|
+  :Mengetik nama kategori di Search Bar;
+  |#DCEBFF|2. Aplikasi Android (Smart Lapor)|
+  :Mengirim request GET /api/categories?search={nama};
+  |#EDE2F3|3. Backend REST API & Database|
+  :Mencari kategori & kirim HTTP 200;
+  |#DCEBFF|2. Aplikasi Android (Smart Lapor)|
+  :Menampilkan hasil pencarian kategori;
+endswitch
+
+|#F5F5F5|1. Admin (Petugas)|
+stop
+@enduml

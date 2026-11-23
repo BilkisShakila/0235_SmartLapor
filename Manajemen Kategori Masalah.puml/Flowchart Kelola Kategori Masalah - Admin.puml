@@ -1,0 +1,37 @@
+@startuml
+title Flowchart 7 - Kelola Kategori Masalah (Admin)
+
+start
+:Admin membuka menu Kelola Kategori;
+:Sistem menampilkan daftar kategori;
+switch (Pilih aksi?)
+case (Tambah)
+  :Isi nama kategori & deskripsi;
+  if (Nama kosong atau duplikat?) then (Ya)
+    :Tampilkan pesan error validasi;
+  else (Tidak)
+    :Simpan kategori baru ke Database;
+    :Perbarui daftar kategori;
+  endif
+case (Ubah)
+  :Pilih kategori & ubah nama/deskripsi;
+  if (Nama kosong atau duplikat?) then (Ya)
+    :Tampilkan pesan error validasi;
+  else (Tidak)
+    :Perbarui kategori di Database;
+    :Perbarui daftar kategori;
+  endif
+case (Hapus)
+  :Pilih kategori & tekan Hapus;
+  if (Konfirmasi hapus?) then (Ya)
+    :Hapus kategori di Database;
+    :Perbarui daftar kategori;
+  else (Batal)
+    :Batalkan penghapusan;
+  endif
+case (Cari)
+  :Masukkan kata kunci nama kategori;
+  :Tampilkan hasil pencarian kategori;
+endswitch
+stop
+@enduml
